@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ARGE | 인지케어 플랫폼</title>
+
+<style>
+:root {
+  --navy: #252f60;
+  --green: #345e53;
+  --sage: #dce8dc;
+  --cream: #f8f7ef;
+  --white: #fffef9;
+  --text: #202522;
+  --muted: #69736d;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--cream);
+  color: var(--text);
+  font-family: "Noto Sans KR", "Malgun Gothic", sans-serif;
+  line-height: 1.7;
+}
+button, input, textarea, select { font: inherit; }
+button { cursor: pointer; }
+header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: rgba(248,247,239,.96);
+  border-bottom: 1px solid #e0e4d9;
+  padding: 12px 5%;
+}
+.nav {
+  max-width: 1150px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: none;
+  background: none;
+  color: var(--navy);
+  font-size: 23px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+.logo-mark {
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border: 2px solid var(--navy);
+  border-radius: 50%;
+  font-family: serif;
+  font-size: 25px;
+}
+nav { display: flex; flex-wrap: wrap; gap: 5px; }
+nav button {
+  border: none;
+  border-radius: 30px;
+  padding: 9px 12px;
+  background: transparent;
+  color: var(--text);
+  font-size: 14px;
+}
+nav button:hover, nav button.active {
+  background: var(--green);
+  color: white;
+}
+main {
+  max-width: 1150px;
+  min-height: 75vh;
+  margin: auto;
+  padding: 30px 24px 65px;
+}
+.page { display: none; }
+.page.active { display: block; }
+.hero {
+  padding: clamp(28px, 6vw, 65px);
+  border-radius: 28px;
+  background: linear-gradient(125deg, #e0eade, #faf9f2 65%, #d7e3d8);
+  border: 1px solid #e1e5d9;
+}
+.eyebrow {
+  color: var(--green);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+h1 {
+  color: var(--navy);
+  font-size: clamp(30px, 5vw, 48px);
+  line-height: 1.35;
+  letter-spacing: -1.5px;
+}
+h2 { color: var(--navy); font-size: 27px; }
+h3 { color: var(--navy); margin-top: 0; }
+p { margin: 8px 0 14px; }
+.muted { color: var(--muted); font-size: 14px; }
+.blue { color: #3c83c8; }
+.actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 20px; }
+.btn {
+  border: none;
+  border-radius: 30px;
+  padding: 12px 20px;
+  background: var(--green);
+  color: white;
+  font-weight: 700;
+}
+.btn.secondary {
+  background: var(--sage);
+  color: var(--green);
+}
+.btn:hover { opacity: .85; }
+.section { margin-top: 38px; }
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 15px;
+}
+.grid.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.card {
+  padding: 22px;
+  background: var(--white);
+  border: 1px solid #dfe4d8;
+  border-radius: 18px;
+}
+.card p { color: var(--muted); font-size: 14px; }
+.icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--sage);
+  display: grid;
+  place-items: center;
+  font-size: 24px;
+  margin-bottom: 12px;
+}
+.motto {
+  margin: 30px 0;
+  padding: 30px 15px;
+  border-radius: 22px;
+  background: var(--navy);
+  color: white;
+  text-align: center;
+}
+.motto h2 { color: white; line-height: 1.6; }
+.pill {
+  display: inline-block;
+  padding: 6px 18px;
+  border-radius: 25px;
+  background: var(--green);
+  color: white;
+  font-weight: bold;
+}
+.panel {
+  margin-top: 20px;
+  padding: clamp(20px, 4vw, 32px);
+  border: 1px solid #dfe4d8;
+  border-radius: 22px;
+  background: var(--white);
+}
+.field { margin-bottom: 17px; }
+.field label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 700;
+  font-size: 14px;
+}
+.field input, .field textarea, .field select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #d4dcd2;
+  border-radius: 11px;
+  background: white;
+  color: #202522;
+}
+.field textarea { min-height: 100px; resize: vertical; }
+.choices {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+.choice {
+  padding: 13px;
+  text-align: left;
+  border: 1px solid #d4dcd2;
+  border-radius: 13px;
+  background: white;
+  color: #202522;
+}
+.choice.selected {
+  background: var(--sage);
+  border: 2px solid var(--green);
+  font-weight: bold;
+}
+.progress {
+  height: 8px;
+  margin: 18px 0;
+  overflow: hidden;
+  background: #e5e9df;
+  border-radius: 20px;
+}
+.progress span {
+  display: block;
+  height: 100%;
+  background: #6b9875;
+  width: 0;
+  transition: width .25s;
+}
+.result {
+  display: none;
+  padding: 20px;
+  margin-top: 20px;
+  border-radius: 15px;
+  background: #e6eee3;
+}
+.result.show { display: block; }
+.chatbox {
+  height: 300px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 15px;
+  border: 1px solid #dfe4d8;
+  border-radius: 15px;
+  background: white;
+}
+.bubble {
+  max-width: 85%;
+  padding: 11px 14px;
+  border-radius: 14px;
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+.bot { background: var(--sage); align-self: flex-start; }
+.user { background: var(--navy); color: white; align-self: flex-end; }
+.chatrow { display: flex; gap: 8px; margin-top: 10px; }
+.chatrow input {
+  flex: 1;
+  min-width: 0;
+  padding: 11px;
+  border: 1px solid #d4dcd2;
+  border-radius: 12px;
+}
+footer {
+  padding: 28px;
+  text-align: center;
+  color: white;
+  background: var(--navy);
+  font-size: 13px;
+}
+@media(max-width: 800px) {
+  .nav { align-items: flex-start; flex-direction: column; }
+  nav { justify-content: flex-start; }
+  .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media(max-width: 520px) {
+  main { padding: 18px 13px 45px; }
+  .grid, .grid.two { grid-template-columns: 1fr; }
+  nav button { font-size: 12px; padding: 8px; }
+  .choices { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+
+<body>
+<header>
+  <div class="nav">
+    <button class="logo" onclick="go('survey')">
+      <span class="logo-mark">知</span>
+      ARGE
+    </button>
+
+    <nav>
+      <button onclick="go('about')">기업소개</button>
+      <button onclick="go('exam')">스마트 진단 검사</button>
+      <button onclick="go('apply')">인지케어 신청하기</button>
+      <button onclick="go('qa')">Q&amp;A</button>
+      <button onclick="go('mypage')">마이페이지</button>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+<!-- 시작 화면: 1분 설문 -->
+<section class="page active" id="survey">
+  <div class="hero">
+    <div class="eyebrow">WELCOME TO ARGE</div>
+    <h1>알아가는 즐거움이<br>
+    지속되는 삶이 되도록</h1>
+    <p>나에게 맞는 인지케어를 찾는 1분 설문.<br>
+    관심사를 선택하고 나만의 프로그램을 추천받아 보세요.</p>
+    <div class="actions">
+      <button class="btn" onclick="document.getElementById('surveyPanel').scrollIntoView({behavior:'smooth'})">
+        1분 설문 시작하기 →
+      </button>
+      <button class="btn secondary" onclick="go('about')">ARGE 알아보기</button>
+    </div>
+  </div>
+
+  <div class="section" id="surveyPanel">
+    <h2>🌿 나를 알아가는 간단한 설문</h2>
+    <p class="muted">관심 있는 답변을 선택해 주세요.</p>
+    <div class="panel">
+      <div class="progress"><span id="surveyProgress"></span></div>
+      <div id="surveyQuestion"></div>
+      <div class="actions">
+        <button class="btn secondary" id="surveyBack" onclick="surveyMove(-1)">이전</button>
+        <button class="btn" id="surveyNext" onclick="surveyMove(1)">다음 질문</button>
+      </div>
+      <div class="result" id="surveyResult"></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>ARGE의 네 가지 인지케어</h2>
+    <div class="grid">
+      <div class="card"><div class="icon">🎨</div><h3>예술</h3><p>창의적인 표현과 감상을 통해 새로운 관점을 발견합니다.</p></div>
+      <div class="card"><div class="icon">📚</div><h3>인문학</h3><p>책과 이야기로 지식을 탐구하고 생각을 넓힙니다.</p></div>
+      <div class="card"><div class="icon">🗺️</div><h3>공간정보</h3><p>지도와 장소를 통해 세상을 이해합니다.</p></div>
+      <div class="card"><div class="icon">🪙</div><h3>경제</h3><p>생활 속 소비와 선택을 살펴봅니다.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 기업소개 -->
+<section class="page" id="about">
+  <div class="eyebrow">ABOUT ARGE</div>
+  <h1>우리가 당연하게 접하는 정보들이<br>
+  누군가에게는 이해하기 어려운 암호는 아닐까?</h1>
+
+  <div class="grid two">
+    <div class="card">
+      <h3>기업명: 알 지(知)</h3>
+      <p>ARGE는 한자 ‘知(알 지)’의 의미를 바탕으로, 누구나 정보를 쉽게 이해하고 배움의 즐거움을 누릴 수 있도록 돕는 인지케어 플랫폼입니다.</p>
+    </div>
+    <div class="card">
+      <h3>문제 선정 이유</h3>
+      <p>인지활동은 일회성 체험보다 꾸준한 참여가 중요합니다. 하지만 스스로 콘텐츠를 찾아 학습해야 하는 구조에서는 지속적인 참여가 어려울 수 있습니다.</p>
+      <p>ARGE는 이해하기 쉬운 활동과 단계별 안내를 통해 정보 접근의 장벽을 낮추고자 합니다.</p>
+    </div>
+  </div>
+
+  <div class="motto">
+    <span class="pill">OUR MOTTO</span>
+    <h2><span class="blue">알</span>아가는 즐거움이<br>
+    <span class="blue">지</span>속되는 삶이 되도록</h2>
+  </div>
+
+  <div class="section">
+    <h2>ARGE의 핵심 가치</h2>
+    <div class="grid">
+      <div class="card"><div class="icon">💡</div><h3>맞춤형 정보</h3><p>개인의 관심사에 맞는 정보를 제공합니다.</p></div>
+      <div class="card"><div class="icon">🧠</div><h3>쉽고 친근한 이해</h3><p>낯선 정보도 쉬운 설명과 활동으로 전달합니다.</p></div>
+      <div class="card"><div class="icon">📈</div><h3>지속적인 성장</h3><p>작은 활동을 꾸준히 이어가도록 돕습니다.</p></div>
+      <div class="card"><div class="icon">👥</div><h3>모두를 위한 접근성</h3><p>누구나 편하게 사용할 수 있는 환경을 지향합니다.</p></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>단계별 인지케어 솔루션</h2>
+    <div class="grid">
+      <div class="card"><div class="icon">①</div><h3>맞춤형 분석 시스템</h3><p>간단한 설문을 통해 관심 분야와 선호 방식을 확인합니다.</p></div>
+      <div class="card"><div class="icon">②</div><h3>인지케어 프로그램 추천</h3><p>예술, 인문학, 공간정보, 경제 분야의 활동을 추천합니다.</p></div>
+      <div class="card"><div class="icon">③</div><h3>체험형 교구</h3><p>학습지와 퍼즐 등 직접 참여하는 활동을 제공합니다.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 스마트 진단 검사 -->
+<section class="page" id="exam">
+  <div class="eyebrow">SMART ACTIVITY</div>
+  <h1>스마트 진단 검사</h1>
+  <p>간단한 문제를 풀며 일상 속 사고 활동을 체험해 보세요.</p>
+  <div class="panel">
+    <p class="muted">※ 이 검사는 시연용 인지활동이며 의료적 진단이나 치매 검사에 해당하지 않습니다.</p>
+    <div class="progress"><span id="examProgress"></span></div>
+    <div id="examQuestion"></div>
+    <div class="actions">
+      <button class="btn secondary" id="examBack" onclick="examMove(-1)">이전</button>
+      <button class="btn" id="examNext" onclick="examMove(1)">다음</button>
+    </div>
+    <div class="result" id="examResult"></div>
+  </div>
+</section>
+
+<!-- 인지케어 신청 -->
+<section class="page" id="apply">
+  <div class="eyebrow">JOIN ARGE</div>
+  <h1>인지케어 신청하기</h1>
+  <p>관심 있는 분야를 선택하고 신청 내용을 작성해 주세요.</p>
+
+  <form class="panel" id="applyForm">
+    <div class="field">
+      <label for="fullname">성명 *</label>
+      <input id="fullname" required placeholder="성함을 입력해 주세요">
+    </div>
+    <div class="field">
+      <label for="birth">생년월일 *</label>
+      <input id="birth" type="date" required>
+    </div>
+
+    <div class="field">
+      <label>신청 분야 * (복수 선택 가능)</label>
+      <div class="grid">
+        <button type="button" class="category choice" data-cat="예술" onclick="toggleCat(this)">🎨<br>예술</button>
+        <button type="button" class="category choice" data-cat="인문학" onclick="toggleCat(this)">📚<br>인문학</button>
+        <button type="button" class="category choice" data-cat="공간정보" onclick="toggleCat(this)">🗺️<br>공간정보</button>
+        <button type="button" class="category choice" data-cat="경제" onclick="toggleCat(this)">🪙<br>경제</button>
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="format">희망 활동 방식</label>
+      <select id="format">
+        <option>온라인 활동</option>
+        <option>인쇄 학습지</option>
+        <option>체험형 교구</option>
+        <option>상담 후 결정</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label for="request">요청사항</label>
+      <textarea id="request" placeholder="원하는 활동이나 도움이 필요한 점을 적어주세요."></textarea>
+    </div>
+
+    <label class="muted">
+      <input type="checkbox" id="agree" required>
+      시연용 신청서이며 실제 서버로 전송되지 않는다는 점을 확인했습니다.
+    </label>
+
+    <div class="actions">
+      <button class="btn" type="submit">신청서 제출하기</button>
+    </div>
+    <div class="result" id="applyResult"></div>
+  </form>
+</section>
+
+<!-- Q&A -->
+<section class="page" id="qa">
+  <div class="eyebrow">ARGE HELPER</div>
+  <h1>무엇이 궁금하신가요?</h1>
+  <p>ARGE의 콘텐츠와 서비스에 관해 질문해 보세요.</p>
+
+  <div class="grid two">
+    <div class="card">
+      <h3>자주 묻는 질문</h3>
+      <div class="actions">
+        <button class="btn secondary" onclick="quickAsk('ARGE는 어떤 서비스인가요?')">ARGE 소개</button>
+        <button class="btn secondary" onclick="quickAsk('어떤 분야를 신청할 수 있나요?')">신청 분야</button>
+        <button class="btn secondary" onclick="quickAsk('검사는 의료 진단인가요?')">검사 안내</button>
+        <button class="btn secondary" onclick="quickAsk('신청은 어떻게 하나요?')">신청 방법</button>
+      </div>
+    </div>
+
+    <div>
+      <div class="chatbox" id="chatbox">
+        <div class="bubble bot">안녕하세요! ARGE 안내 도우미입니다. 궁금한 점을 입력해 주세요. 현재는 시연용 챗봇입니다.</div>
+      </div>
+      <form class="chatrow" id="chatForm">
+        <input id="chatInput" placeholder="질문을 입력해 주세요" aria-label="질문 입력">
+        <button class="btn">보내기</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- 마이페이지 -->
+<section class="page" id="mypage">
+  <div class="eyebrow">MY ARGE</div>
+  <h1>나의 인지케어</h1>
+  <p>설문 추천 분야와 신청 내역, 활동 진행도를 확인하세요.</p>
+
+  <div class="grid two section">
+    <div class="card">
+      <h3>맞춤 추천 분야</h3>
+      <h2 id="myInterest">아직 분석 전</h2>
+      <p id="myInterestDesc">1분 설문을 완료해 주세요.</p>
+      <button class="btn secondary" onclick="go('survey')">설문하러 가기</button>
+    </div>
+    <div class="card">
+      <h3>신청 현황</h3>
+      <h2 id="myStatus">신청 내역 없음</h2>
+      <p id="myStatusDesc">신청서를 제출하면 표시됩니다.</p>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>활동 진행도</h2>
+    <div class="progress"><span id="myProgress"></span></div>
+    <p id="myPercent">0% 완료</p>
+    <button class="btn" onclick="advanceProgress()">오늘 활동 완료하기 +20%</button>
+    <p class="muted">현재 진행도는 시연용으로 조정됩니다.</p>
+  </div>
+
+  <div class="panel">
+    <h2>이용 중인 서비스</h2>
+    <div id="myServices" class="muted">신청한 서비스가 여기에 표시됩니다.</div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <strong>知 ARGE</strong><br>
+  알아가는 즐거움이 지속되는 삶이 되도록<br>
+  일상 속 배움과 인지활동을 돕는 맞춤형 플랫폼
+</footer>
+
+<script>
+// 페이지 이동
+function go(id) {
+  document.querySelectorAll('.page').forEach(p =>
+    p.classList.toggle('active', p.id === id)
+  );
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+}
+
+// 분야 설명
+const catInfo = {
+  '예술': '그림, 음악, 감상 활동으로 창의적인 표현을 경험해 보세요.',
+  '인문학': '책과 이야기, 역사와 철학을 통해 생각을 넓혀 보세요.',
+  '공간정보': '지도와 장소를 살펴보며 주변 세계를 이해해 보세요.',
+  '경제': '생활 속 소비와 선택을 살펴보며 경제 감각을 키워 보세요.'
+};
+
+// 1분 설문
+const surveyQs = [
+  {
+    q: '1. 어떤 활동이 가장 끌리세요?',
+    a: [
+      ['🎨 그림·음악 감상', '예술'],
+      ['📚 책·이야기 읽기', '인문학'],
+      ['🗺️ 지도·장소 알아보기', '공간정보'],
+      ['🪙 소비·돈의 흐름 알아보기', '경제']
+    ]
+  },
+  {
+    q: '2. 새로운 것을 배울 때 어떤 방식이 편하신가요?',
+    a: [
+      ['👀 그림이나 영상으로 보기', '예술'],
+      ['📖 읽고 생각해 보기', '인문학'],
+      ['🧭 직접 찾아보고 비교하기', '공간정보'],
+      ['🧮 생활 속 사례로 익히기', '경제']
+    ]
+  },
+  {
+    q: '3. 어떤 주제에 더 관심이 가나요?',
+    a: [
+      ['🖼️ 작품과 창의적 표현', '예술'],
+      ['💬 사람과 사회의 이야기', '인문학'],
+      ['🌏 우리 동네와 다른 지역', '공간정보'],
+      ['🛒 가격과 소비 정보', '경제']
+    ]
+  }
+];
+
+let sIndex = 0;
+let sAnswers = [];
+
+function renderSurvey() {
+  const q = surveyQs[sIndex];
+  document.getElementById('surveyProgress').style.width =
+    ((sIndex + 1) / surveyQs.length * 100) + '%';
+
+  document.getElementById('surveyQuestion').innerHTML =
+    `<p class="muted">QUESTION ${sIndex + 1} / ${surveyQs.length}</p>
+     <div class="question">${q.q}</div>
+     <div class="choices">
+       ${q.a.map(a => `
+         <button class="choice ${sAnswers[sIndex] === a[1] ? 'selected' : ''}"
+           onclick="pickSurvey('${a[1]}')">${a[0]}</button>
+       `).join('')}
+     </div>`;
+
+  document.getElementById('surveyBack').disabled = sIndex === 0;
+  document.getElementById('surveyNext').textContent =
+    sIndex === surveyQs.length - 1 ? '추천 결과 보기' : '다음 질문';
+}
+
+function pickSurvey(value) {
+  sAnswers[sIndex] = value;
+  renderSurvey();
+}
+
+function surveyMove(direction) {
+  if (direction > 0 && !sAnswers[sIndex]) {
+    alert('답변을 하나 선택해 주세요.');
+    return;
+  }
+
+  if (sIndex === surveyQs.length - 1 && direction > 0) {
+    const counts = {};
+    sAnswers.forEach(c => counts[c] = (counts[c] || 0) + 1);
+    const top = Object.keys(counts).sort((a, b) => counts[b] - counts[a])[0];
+
+    localStorage.setItem('argeInterest', top);
+
+    document.getElementById('surveyResult').innerHTML = `
+      <h2>🌿 추천 분야: ${top}</h2>
+      <p>${catInfo[top]}</p>
+      <p class="muted">관심사를 바탕으로 한 체험용 추천이며 의료적 진단 결과가 아닙니다.</p>
+      <div class="actions">
+        <button class="btn" onclick="go('apply'); preselect('${top}')">프로그램 신청하기</button>
+        <button class="btn secondary" onclick="go('mypage')">마이페이지 보기</button>
+      </div>`;
+    document.getElementById('surveyResult').classList.add('show');
+    renderMyPage();
+    return;
+  }
+
+  sIndex = Math.max(0, Math.min(surveyQs.length - 1, sIndex + direction));
+  renderSurvey();
+}
+
+// 스마트 진단 검사: 체험용 문제
+const examQs = [
+  {
+    q: '다음 중 과일에 해당하는 것은 무엇인가요?',
+    a: ['당근', '사과', '감자', '양파'],
+    correct: 1
+  },
+  {
+    q: '약속 시간이 오후 3시이고 지금은 오후 2시 30분입니다. 남은 시간은?',
+    a: ['10분', '20분', '30분', '60분'],
+    correct: 2
+  },
+  {
+    q: '숫자를 기억해 보세요: 4 · 8 · 2. 세 번째 숫자는?',
+    a: ['4', '8', '2', '6'],
+    correct: 2
+  },
+  {
+    q: '길을 찾을 때 가장 도움이 되는 도구는 무엇인가요?',
+    a: ['지도', '컵받침', '베개', '앞치마'],
+    correct: 0
+  }
+];
+
+let eIndex = 0;
+let eAnswers = [];
+
+function renderExam() {
+  const area = document.getElementById('examQuestion');
+  const result = document.getElementById('examResult');
+  result.classList.remove('show');
+
+  if (eIndex >= examQs.length) {
+    const score = eAnswers.filter((v, i) => v === examQs[i].correct).length;
+    result.innerHTML = `
+      <h2>체험 완료!</h2>
+      <p>${examQs.length}개 문항 중 ${score}개를 맞히셨습니다.</p>
+      <p class="muted">이 결과는 간단한 체험 활동의 결과이며 인지 기능이나 건강 상태를 진단하지 않습니다.</p>
+      <button class="btn" onclick="eIndex=0;eAnswers=[];renderExam()">다시 검사하기</button>`;
+    result.classList.add('show');
+    area.innerHTML = '';
+    document.getElementById('examProgress').style.width = '100%';
+    document.getElementById('examNext').style.display = 'none';
+    return;
+  }
+
+  const q = examQs[eIndex];
+  document.getElementById('examProgress').style.width =
+    (eIndex / examQs.length * 100) + '%';
+
+  area.innerHTML = `
+    <p class="muted">QUESTION ${eIndex + 1} / ${examQs.length}</p>
+    <div class="question">${q.q}</div>
+    <div class="choices">
+      ${q.a.map((a, i) => `
+        <button class="choice ${eAnswers[eIndex] === i ? 'selected' : ''}"
+          onclick="pickExam(${i})">${a}</button>
+      `).join('')}
+    </div>`;
+
+  document.getElementById('examBack').disabled = eIndex === 0;
+  document.getElementById('examNext').style.display = 'inline-block';
+  document.getElementById('examNext').textContent =
+    eIndex === examQs.length - 1 ? '결과 보기' : '다음';
+}
+
+function pickExam(i) {
+  eAnswers[eIndex] = i;
+  renderExam();
+}
+
+function examMove(direction) {
+  if (direction > 0 && eAnswers[eIndex] === undefined) {
+    alert('답변을 선택해 주세요.');
+    return;
+  }
+  eIndex = Math.max(0, Math.min(examQs.length, eIndex + direction));
+  renderExam();
+}
+
+// 신청서
+let chosen = new Set();
+
+function toggleCat(button) {
+  const category = button.dataset.cat;
+
+  if (chosen.has(category)) {
+    chosen.delete(category);
+    button.classList.remove('selected');
+  } else {
+    chosen.add(category);
+    button.classList.add('selected');
+  }
+}
+
+function preselect(category) {
+  const button = document.querySelector(`[data-cat="${category}"]`);
+  if (button && !chosen.has(category)) toggleCat(button);
+}
+
+document.getElementById('applyForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+
+  if (!chosen.size) {
+    alert('신청 분야를 하나 이상 선택해 주세요.');
+    return;
+  }
+
+  const record = {
+    name: document.getElementById('fullname').value.trim(),
+    birth: document.getElementById('birth').value,
+    categories: [...chosen],
+    format: document.getElementById('format').value,
+    request: document.getElementById('request').value.trim()
+  };
+
+  sessionStorage.setItem('argeApplication', JSON.stringify(record));
+
+  document.getElementById('applyResult').innerHTML = `
+    <h2>신청서 제출이 완료되었습니다!</h2>
+    <p>${escapeHTML(record.name)}님, 신청 내용을 확인했습니다.</p>
+    <p>신청 분야: <strong>${record.categories.join(', ')}</strong></p>
+    <p>희망 방식: ${escapeHTML(record.format)}</p>
+    <p class="muted">시연용 신청입니다. 실제 서버로 전송되지는 않습니다.</p>
+    <button class="btn" onclick="go('mypage');renderMyPage()">마이페이지에서 확인하기</button>`;
+
+  document.getElementById('applyResult').classList.add('show');
+  renderMyPage();
+});
+
+function escapeHTML(text) {
+  return text.replace(/[&<>"']/g, c => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;',
+    '"': '&quot;', "'": '&#39;'
+  }[c]));
+}
+
+// 마이페이지
+function renderMyPage() {
+  const interest = localStorage.getItem('argeInterest');
+
+  document.getElementById('myInterest').textContent = interest || '아직 분석 전';
+  document.getElementById('myInterestDesc').textContent =
+    interest ? catInfo[interest] : '1분 설문을 완료해 주세요.';
+
+  let app;
+  try {
+    app = JSON.parse(sessionStorage.getItem('argeApplication'));
+  } catch (e) {}
+
+  if (app) {
+    document.getElementById('myStatus').textContent = '신청 접수 완료';
+    document.getElementById('myStatusDesc').textContent =
+      app.categories.join(' · ') + ' 분야 / ' + app.format;
+
+    document.getElementById('myServices').innerHTML =
+      `<p><strong>${app.categories.join(' · ')}</strong></p>
+       <p>${escapeHTML(app.format)}</p>
+       <p>신청자: ${escapeHTML(app.name)}</p>
+       <p>요청사항: ${escapeHTML(app.request || '별도 요청사항 없음')}</p>
+       <span class="pill">시연용 접수 완료</span>`;
+  }
+
+  const progress = Number(localStorage.getItem('argeProgress') || 0);
+  document.getElementById('myProgress').style.width = progress + '%';
+  document.getElementById('myPercent').textContent = progress + '% 완료';
+}
+
+function advanceProgress() {
+  let n = Number(localStorage.getItem('argeProgress') || 0);
+  n = Math.min(100, n + 20);
+  localStorage.setItem('argeProgress', n);
+  renderMyPage();
+}
+
+// Q&A 챗봇
+function addBubble(text, type) {
+  const bubble = document.createElement('div');
+  bubble.className = 'bubble ' + type;
+  bubble.textContent = text;
+  const box = document.getElementById('chatbox');
+  box.appendChild(bubble);
+  box.scrollTop = box.scrollHeight;
+}
+
+function getAnswer(question) {
+  const q = question.toLowerCase();
+
+  if (q.includes('신청') || q.includes('접수')) {
+    return '인지케어 신청하기 메뉴에서 관심 분야를 선택하고 성명과 생년월일을 입력한 뒤 제출해 주세요. 현재는 시연용으로 실제 서버에 전송되지는 않습니다.';
+  }
+
+  if (q.includes('분야') || q.includes('프로그램') || q.includes('추천')) {
+    return '예술, 인문학, 공간정보, 경제의 네 분야를 제공합니다. 1분 설문을 완료하면 관심 분야를 추천받을 수 있습니다.';
+  }
+
+  if (q.includes('검사') || q.includes('진단') || q.includes('치매')) {
+    return '스마트 진단 검사는 간단한 체험형 문항입니다. 의료적 진단이나 치매 검사를 대체하지 않습니다.';
+  }
+
+  if (q.includes('마이페이지') || q.includes('진도')) {
+    return '마이페이지에서 추천 분야, 신청 내역, 시연용 활동 진행도를 확인할 수 있습니다.';
+  }
+
+  if (q.includes('비용') || q.includes('가격')) {
+    return '현재 시안에는 실제 이용 요금이 설정되어 있지 않습니다. 실제 운영 전 별도 안내가 필요합니다.';
+  }
+
+  return 'ARGE는 맞춤형 분석, 분야별 인지케어 프로그램 추천, 학습지와 퍼즐 등의 체험형 교구를 중심으로 구성된 플랫폼입니다. 기업소개 메뉴에서 자세히 확인해 보세요.';
+}
+
+function sendChat() {
+  const input = document.getElementById('chatInput');
+  const text = input.value.trim();
+  if (!text) return;
+
+  addBubble(text, 'user');
+  input.value = '';
+  addBubble(getAnswer(text), 'bot');
+}
+
+function quickAsk(text) {
+  addBubble(text, 'user');
+  addBubble(getAnswer(text), 'bot');
+}
+
+document.getElementById('chatForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  sendChat();
+});
+
+// 처음 화면 초기화
+renderSurvey();
+renderExam();
+renderMyPage();
+</script>
+</body>
+</html>
